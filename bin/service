@@ -27,7 +27,6 @@ do_start() {
     docker run \
         -d \
         --name $CONTAINER_NAME \
-        -v /etc/localtime:/etc/localtime:ro \
         $CONTAINER_OPTIONS \
         $IMAGE:$TAG $VSFTPD_OPTIONS >/dev/null 2>&1
 }
