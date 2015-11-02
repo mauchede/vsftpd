@@ -7,14 +7,14 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Description:       Very Secure FTP Daemon
-# Description:       Provides a lightweight, efficient FTP server written
+# Description:       Provides a lightweight, efficient FTP server written for security.
 ### END INIT INFO
 
 set -e
 
 CONTAINER_NAME="vsftpd"
 CONTAINER_OPTIONS="--net host -v /srv/ftp:/srv/ftp"
-VSFTPD_OPTIONS="anonymous_enable=YES dual_log_enable=YES seccomp_sandbox=NO secure_chroot_dir=/srv/ftp syslog_enable=YES"
+VSFTPD_OPTIONS="anonymous_enable=YES secure_chroot_dir=/srv/ftp"
 IMAGE="mauchede/vsftpd"
 TAG="3.0.2"
 [[ -f /etc/default/vsftpd ]] && . /etc/default/vsftpd
