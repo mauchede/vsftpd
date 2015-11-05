@@ -2,9 +2,9 @@
 
 Dockerized [vsftpd](https://security.appspot.com/vsftpd.html): Very Secure FTP Daemon.
 
-## Install
+## Image
 
-### Standard
+### Installation
 
 Pull the image `mauchede/vsftpd`:
 
@@ -18,18 +18,7 @@ docker pull mauchede/vsftpd
 docker pull mauchede/vsftpd:3.0.2
 ```
 
-### Service
-
-Copy the script `bin/service` into `/etc/init.d/vsftpd`:
-
-```
-sudo curl -sLo /etc/init.d/vsftpd https://github.com/mauchede/vsftpd/raw/master/bin/service
-sudo chmod +x /etc/init.d/vsftpd
-```
-
-## Usage
-
-### Standard
+### Usage
 
 Run your container via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as arguments. For example:
 
@@ -44,7 +33,18 @@ docker logs vsftpd
 # ftp:info: Nov  2 15:30:17 vsftpd[11]: [ftp] OK LOGIN: Client "::ffff:127.0.0.1", anon password "anon@localhost"
 ```
 
-### Service
+## Service
+
+### Installation
+
+Copy the script `bin/service` into `/etc/init.d/vsftpd`:
+
+```
+sudo curl -sLo /etc/init.d/vsftpd https://github.com/mauchede/vsftpd/raw/master/bin/service
+sudo chmod +x /etc/init.d/vsftpd
+```
+
+### Usage
 
 You can manage the service via the command `service`:
 
@@ -83,6 +83,14 @@ CONTAINER_NAME="other_name"
 # Add "guest_enable" to VSFTPD_OPTIONS
 VSFTPD_OPTIONS="$VSFTPD_OPTIONS guest_enable=YES"
 ```
+
+## Contributing
+
+1. Fork it.
+2. Create your branch: `git checkout -b my-new-feature`.
+3. Commit your changes: `git commit -am 'Add some feature'`.
+4. Push to the branch: `git push origin my-new-feature`.
+5. Submit a pull request.
 
 ## Links
 

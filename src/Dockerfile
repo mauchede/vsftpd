@@ -6,15 +6,15 @@ ENV \
     VSFTPD_VERSION=3.0.2
 
 ADD https://github.com/mauchede/syslog-stdout/raw/master/dist/syslog-stdout /usr/local/bin/syslog-stdout
-RUN chmod +x /usr/local/bin/syslog-stdout
 
 RUN set -x \
+    && chmod +x /usr/local/bin/syslog-stdout \
     && apt-get update \
     && apt-get install -y --no-install-recommends vsftpd=$VSFTPD_VERSION* \
     && echo "dual_log_enable=YES" >> /etc/vsftpd.conf \
     && echo "seccomp_sandbox=NO" >> /etc/vsftpd.conf \
     && echo "syslog_enable=YES" >> /etc/vsftpd.conf \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
