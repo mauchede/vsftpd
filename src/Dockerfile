@@ -10,13 +10,11 @@ RUN chmod +x /usr/local/bin/syslog-stdout
 
 RUN set -x \
     && apt-get update \
-    && apt-get install -y --no-install-recommends libpam-mysql vsftpd=$VSFTPD_VERSION* \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN set -x \
+    && apt-get install -y --no-install-recommends vsftpd=$VSFTPD_VERSION* \
     && echo "dual_log_enable=YES" >> /etc/vsftpd.conf \
     && echo "seccomp_sandbox=NO" >> /etc/vsftpd.conf \
-    && echo "syslog_enable=YES" >> /etc/vsftpd.conf
+    && echo "syslog_enable=YES" >> /etc/vsftpd.conf \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
