@@ -1,10 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 /usr/local/bin/syslog-stdout &
 
-for OPTION in "$@" ; do
-    echo $OPTION >> /etc/vsftpd.conf
-done
-
-vsftpd
+exec /usr/sbin/vsftpd /etc/vsftpd.conf "$@"
