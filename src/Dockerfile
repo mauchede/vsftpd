@@ -11,9 +11,9 @@ ADD https://github.com/mauchede/syslog-stdout/raw/v1.0.0/dist/syslog-stdout /usr
 RUN set -x \
     && chmod +x /usr/local/bin/syslog-stdout \
     && apk add -U linux-pam=$LINUX_PAM_VERSION vsftpd=$VSFTPD_VERSION \
-    && echo "dual_log_enable=YES" >> /etc/vsftpd.conf \
-    && echo "seccomp_sandbox=NO" >> /etc/vsftpd.conf \
-    && echo "syslog_enable=YES" >> /etc/vsftpd.conf \
+    && echo "dual_log_enable=YES" >> /etc/vsftpd/vsftpd.conf \
+    && echo "seccomp_sandbox=NO" >> /etc/vsftpd/vsftpd.conf \
+    && echo "syslog_enable=YES" >> /etc/vsftpd/vsftpd.conf \
     && rm -rf /var/cache/apk/*
 
 COPY entrypoint.sh /entrypoint.sh
