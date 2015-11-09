@@ -6,7 +6,7 @@ ENV \
     LINUX_PAM_VERSION=1.1.8-r2 \
     VSFTPD_VERSION=3.0.2-r9
 
-ADD https://github.com/mauchede/syslog-stdout/raw/master/dist/syslog-stdout /usr/local/bin/syslog-stdout
+ADD https://github.com/mauchede/syslog-stdout/raw/v1.0.0/dist/syslog-stdout /usr/local/bin/syslog-stdout
 
 RUN set -x \
     && chmod +x /usr/local/bin/syslog-stdout \
