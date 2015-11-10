@@ -1,8 +1,4 @@
-# vsftpd
-
-Dockerized [vsftpd](https://security.appspot.com/vsftpd.html): Very Secure FTP Daemon.
-
-## Installation
+### Installation
 
 Pull the image `mauchede/vsftpd`:
 
@@ -16,7 +12,7 @@ docker pull mauchede/vsftpd
 docker pull mauchede/vsftpd:3.0.2
 ```
 
-## Usage
+### Usage
 
 Run your container via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as arguments. For example:
 
@@ -31,7 +27,7 @@ docker logs vsftpd
 # ftp:info: Nov  2 15:30:17 vsftpd[11]: [ftp] OK LOGIN: Client "::ffff:127.0.0.1", anon password "anon@localhost"
 ```
 
-## Contributing
+### Contributing
 
 1. Fork it.
 2. Create your branch: `git checkout -b my-new-feature`.
@@ -39,7 +35,7 @@ docker logs vsftpd
 4. Push to the branch: `git push origin my-new-feature`.
 5. Submit a pull request.
 
-## Links
+### Links
 
 * [command "docker pull"](https://docs.docker.com/reference/commandline/pull/)
 * [command "docker logs"](https://docs.docker.com/reference/commandline/cli/)
