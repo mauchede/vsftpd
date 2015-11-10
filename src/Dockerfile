@@ -2,7 +2,6 @@ FROM alpine:3.1
 MAINTAINER Morgan Auchede <morgan.auchede@gmail.com>
 
 ENV \
-    DEBIAN_FRONTEND=noninteractive \
     LINUX_PAM_VERSION=1.1.8-r2 \
     VSFTPD_VERSION=3.0.2-r9
 
