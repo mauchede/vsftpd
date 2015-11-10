@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
-cd "`dirname "$0"`/../src"
+cd "`dirname "$0"`/.."
 
 IMAGE=${IMAGE:-mauchede/vsftpd}
 TAG=${TAG:-3.0.2}
 
+bin/build-dependencies
+
 docker rmi $IMAGE:$TAG || :
-docker build -t $IMAGE:$TAG .
+docker build -t $IMAGE:$TAG src/.

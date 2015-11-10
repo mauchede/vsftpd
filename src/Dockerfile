@@ -17,4 +17,6 @@ RUN set -x \
     && rm -rf /var/cache/apk/*
 
 COPY entrypoint.sh /entrypoint.sh
+COPY pam_pwdfile.so /lib/security/pam_pwdfile.so
+
 ENTRYPOINT [ "/entrypoint.sh" ]
