@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
 
-/usr/local/bin/syslog-stdout &
+/usr/sbin/syslog-stdout &
 
-exec /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf "$@"
+/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf "$@"
