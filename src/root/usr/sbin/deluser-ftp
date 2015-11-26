@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+fail() {
+    echo $1 >&2
+    echo "$0 [USER]" >&2
+    exit 1
+}
+
+[[ -z $PWD_FILE ]] && fail "Environment variable PWD_FILE is missing."
+[[ -z $1 ]] && fail "Argument USER is missing."
+
+[[ ! -f $PWD_FILE ]] && touch $PWD_FILE
+sed -i "/^$1:/ d" $PWD_FILE

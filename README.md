@@ -32,17 +32,13 @@ docker logs vsftpd
 * [libpam-pwdfile](https://github.com/tiwe-de/libpam-pwdfile). It is possible to have "virtual" users:
 
 ```bash
-cat pam.d/ftp
-# auth required /lib/security/pam_pwdfile.so pwdfile /users
-# account required /lib/security/pam_permit.so
-
-htpasswd -db users usernameA passwordA
-htpasswd -db users usernameB passwordB
-
-docker run -v $PWD/pam.d:/etc/pam.d -v $PWD/users:/users mauchede/vsftpd:3.0.2 \
+docker run -d -e PWD_FILE="/tmp/users" -p 21:21 --name vsftpd mauchede/vsftpd:3.0.2 \
     -oanonymous_enable=NO \
     -oguest_enable=YES \
     -olocal_enable=YES
+
+docker exec -ti vsftpd adduser-ftp usernameA passwordA
+docker exec -ti vsftpd adduser-ftp usernameB passwordB
 ```
 
 ### Contributing
