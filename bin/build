@@ -2,7 +2,7 @@
 set -e
 cd "`dirname "$0"`/.."
 
-IMAGE=${IMAGE:-mauchede/vsftpd}
+IMAGE=${IMAGE:-timonier/vsftpd}
 TAG=${TAG:-3.0.2}
 
 docker rmi $IMAGE:$TAG || :
