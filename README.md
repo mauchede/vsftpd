@@ -1,4 +1,4 @@
-### Installation
+# Installation
 
 Pull the image `timonier/vsftpd`:
 
@@ -12,7 +12,7 @@ docker pull timonier/vsftpd
 docker pull timonier/vsftpd:3.0.2
 ```
 
-### Usage
+# Usage
 
 Run your container via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as arguments:
 
@@ -41,7 +41,7 @@ docker exec -ti vsftpd adduser-ftp usernameA passwordA
 docker exec -ti vsftpd adduser-ftp usernameB passwordB
 ```
 
-### Contributing
+# Contributing
 
 1. Fork it.
 2. Create your branch: `git checkout -b my-new-feature`.
@@ -51,7 +51,7 @@ docker exec -ti vsftpd adduser-ftp usernameB passwordB
 
 __Note__: Use the script `bin/build` to test your modifications locally.
 
-### Links
+# Links
 
 * [command "docker pull"](https://docs.docker.com/reference/commandline/pull/)
 * [command "docker logs"](https://docs.docker.com/reference/commandline/cli/)
