@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 [[ -n $PWD_FILE ]] && cat > /etc/pam.d/ftp << EOF
 auth required /lib/security/pam_pwdfile.so pwdfile $PWD_FILE
