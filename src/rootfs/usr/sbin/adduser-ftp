@@ -1,0 +1,13 @@
+#!/bin/sh
+
+fail() {
+    echo $1 >&2
+    echo "Usage: $0 [USER] [PASSWORD]" >&2
+    exit 1
+}
+
+[ -z "$PWDFILE" ] && fail "Environment variable PWDFILE is missing."
+[ -z "$1" ] && fail "Argument USER is missing."
+[ -z "$2" ] && fail "Argument PASSWORD is missing."
+
+htpasswd -db $PWDFILE $1 $2

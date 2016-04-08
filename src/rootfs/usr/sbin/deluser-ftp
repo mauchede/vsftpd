@@ -1,0 +1,12 @@
+#!/bin/sh
+
+fail() {
+    echo $1 >&2
+    echo "Usage: $0 [USER]" >&2
+    exit 1
+}
+
+[ -z "$PWDFILE" ] && fail "Environment variable PWDFILE is missing."
+[ -z "$1" ] && fail "Argument USER is missing."
+
+sed -i "/^$1:/ d" $PWDFILE
