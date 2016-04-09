@@ -5,7 +5,7 @@
 Pull the image `timonier/vsftpd`:
 
 ```sh
-# Get the latest image
+# Get the latest image (version 3.0.3)
 docker pull timonier/vsftpd
 
 # Or get a specific version
@@ -16,14 +16,14 @@ docker pull timonier/vsftpd:3.0.2
 
 ## Usage
 
-Run your container via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as arguments:
+Run the application via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as arguments:
 
 ```sh
 docker run \
     -p 21:21 \
     -v /srv/ftp:/srv/ftp \
     --name vsftpd \
-    timonier/vsftpd:3.0.2 \
+    timonier/vsftpd \
         -oanonymous_enable=YES \
         -osecure_chroot_dir=/srv/ftp
 ```
@@ -47,7 +47,7 @@ docker run \
     -v /srv/ftp:/srv/ftp \
     --name vsftpd \
     --net host \
-    timonier/vsftpd:3.0.2 \
+    timonier/vsftpd \
         -oallow_writeable_chroot=YES \
         -oanonymous_enable=NO \
         -ochroot_local_user=YES \

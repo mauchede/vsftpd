@@ -1,11 +1,11 @@
-FROM alpine:3.1
+FROM alpine:3.3
 MAINTAINER Morgan Auchede <morgan.auchede@gmail.com>
 
 ENV \
     LINUX_PAM_PWDFILE_VERSION=e29d26e \
     S6_OVERLAY_VERSION=1.17.1.2 \
     SYSLOG_STDOUT_VERSION=1.1.1 \
-    VSFTPD_VERSION=3.0.2
+    VSFTPD_VERSION=3.0.3
 
 RUN set -x \
 
