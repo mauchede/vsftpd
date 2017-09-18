@@ -1,31 +1,19 @@
 # README
 
-## Installation
-
-Pull the image `timonier/vsftpd`:
-
-```sh
-# Get the latest image (version 3.0.3)
-docker pull timonier/vsftpd
-
-# Or get a specific version
-
-# Get the version 3.0.2
-docker pull timonier/vsftpd:3.0.2
-```
+Very Secure FTP Daemon
 
 ## Usage
 
-Run the application via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as arguments:
+Run the application via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as environment variables:
 
 ```sh
 docker run \
-    -p 21:21 \
-    -v /srv/ftp:/srv/ftp \
+    --env VSFTPD_OPTION_ANONYMOUS_ENABLE=YES \
+    --env VSFTPD_OPTION_SECURE_CHROOT_DIR=/srv/ftp \
     --name vsftpd \
-    timonier/vsftpd \
-        -oanonymous_enable=YES \
-        -osecure_chroot_dir=/srv/ftp
+    --publish 21:21 \
+    --volume /srv/ftp:/srv/ftp \
+    timonier/vsftpd
 ```
 
 Image `timonier/vsftpd` is provided with:
@@ -42,22 +30,22 @@ docker logs vsftpd
 
 ```sh
 docker run \
-    -d \
-    -e PWDFILE="/tmp/users" \
-    -v /srv/ftp:/srv/ftp \
+    --detach \
+    --env PAM_PWDFILE="/tmp/users" \
+    --env VSFTPD_OPTION_ALLOW_WRITEABLE_CHROOT=YES \
+    --env VSFTPD_OPTION_ANONYMOUS_ENABLE=NO \
+    --env VSFTPD_OPTION_CHROOT_LOCAL_USER=YES \
+    --env VSFTPD_OPTION_GUEST_ENABLE=YES \
+    --env VSFTPD_OPTION_GUEST_USERNAME=root \
+    --env VSFTPD_OPTION_LOCAL_ENABLE=YES \
+    --env VSFTPD_OPTION_LOCAL_ROOT=/srv/ftp \
+    --env VSFTPD_OPTION_PASV_ENABLE=NO \
+    --env VSFTPD_OPTION_VIRTUAL_USE_LOCAL_PRIVS=YES \
+    --env VSFTPD_OPTION_WRITE_ENABLE=YES \
     --name vsftpd \
     --net host \
-    timonier/vsftpd \
-        -oallow_writeable_chroot=YES \
-        -oanonymous_enable=NO \
-        -ochroot_local_user=YES \
-        -oguest_enable=YES \
-        -oguest_username=root \
-        -opasv_enable=NO \
-        -olocal_enable=YES \
-        -olocal_root=/srv/ftp \
-        -ovirtual_use_local_privs=YES \
-        -owrite_enable=YES
+    --volume /srv/ftp:/srv/ftp \
+    timonier/vsftpd
 
 docker exec -ti vsftpd adduser-ftp usernameA passwordA
 docker exec -ti vsftpd adduser-ftp usernameB passwordB
@@ -75,12 +63,12 @@ __Note__: Use the script `bin/build` to test your modifications locally.
 
 ## Links
 
-* [command "docker pull"](https://docs.docker.com/reference/commandline/pull/)
 * [command "docker logs"](https://docs.docker.com/reference/commandline/cli/)
 * [command "docker run"](https://docs.docker.com/reference/run/)
 * [image "timonier/vsftpd"](https://hub.docker.com/r/timonier/vsftpd/)
-* [libpam-pwdfile](https://github.com/tiwe-de/libpam-pwdfile)
-* [s6-overlay](https://github.com/just-containers/s6-overlay)
-* [syslog-stdout](https://github.com/timonier/syslog-stdout)
+* [timonier/dumb-entrypoint](https://github.com/timonier/dumb-entrypoint)
+* [timonier/syslog-stdout](https://github.com/timonier/syslog-stdout)
+* [timonier/version-lister](https://github.com/timonier/version-lister)
+* [tiwe-de/libpam-pwdfile](https://github.com/tiwe-de/libpam-pwdfile)
 * [vsftpd](https://security.appspot.com/vsftpd.html)
 * [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html)

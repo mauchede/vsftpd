@@ -1,62 +1,55 @@
-FROM alpine:3.3
-MAINTAINER Morgan Auchede <morgan.auchede@gmail.com>
+FROM ubuntu:latest
+
+LABEL \
+    maintainer="Morgan Auchede <morgan.auchede@gmail.com>"
 
 ENV \
-    LINUX_PAM_PWDFILE_VERSION=e29d26e \
-    S6_OVERLAY_VERSION=1.17.1.2 \
-    SYSLOG_STDOUT_VERSION=1.1.1 \
-    VSFTPD_VERSION=3.0.3
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_KEEP_ENV=1 \
+    VSFTPD_VERSION=latest
 
-RUN set -x \
+RUN set -ex \
 
     # Prepare system
 
-    && resolve() { echo $(apk search $1 | grep "^$1-$2" | sed -e "s/$1-//g") ; } \
+    && export DEBIAN_FRONTEND=noninteractive \
 
-    && apk add -U \
+    && apt-get update \
 
     # Install packages
 
-    && BUILD_DEPS="gcc git libc-dev make linux-pam-dev" \
-    && RESOLVED_VSFTPD_VERSION=$(resolve vsftpd $VSFTPD_VERSION) \
+    && export BUILD_DEPS="build-essential ca-certificates curl gcc libpam0g-dev libssl-dev libwrap0-dev" \
 
-    && apk add \
-        $BUILD_DEPS \
-        apache2-utils \
-        linux-pam \
-        vsftpd=${RESOLVED_VSFTPD_VERSION:?"Impossible to find 'vsftpd' in version '$VSFTPD_VERSION'"} \
+    && apt-get install --no-install-recommends --yes \
+           ${BUILD_DEPS} \
+           apache2-utils \
+           libpam-pwdfile \
+           libssl-dev \
+           libwrap0 \
 
-    # Install s6-overlay
+    # Install timonier/dumb-entrypoint
 
-    && curl -ksL "https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz" | tar fxz - -C / \
+    && curl --location "https://github.com/timonier/dumb-entrypoint/raw/master/src/s6-overlay/installer" | INSTALL_DIRECTORY="/usr/sbin" sh -s -- install \
+    && curl --location "https://github.com/timonier/dumb-entrypoint/raw/master/src/syslog-stdout/installer" | INSTALL_DIRECTORY="/usr/sbin" sh -s -- install \
 
-    # Install syslog-stdout
+    # Install vsftpd
 
-    && curl -ksL "https://github.com/timonier/syslog-stdout/releases/download/v$SYSLOG_STDOUT_VERSION/syslog-stdout.tar.gz" | tar fxz - -C /usr/sbin \
+    && export $(curl "https://raw.githubusercontent.com/timonier/version-lister/release/generated/vsftpd/latest" | xargs) \
 
-    # Compile libpam-pwdfile
-
-    && git clone https://github.com/tiwe-de/libpam-pwdfile /tmp/libpam-pwdfile \
-    && git -C /tmp/libpam-pwdfile checkout $LINUX_PAM_PWDFILE_VERSION \
-    && make -C /tmp/libpam-pwdfile \
-    && make -C /tmp/libpam-pwdfile install \
-
-    # Configure vsftpd
-
-    && > /etc/vsftpd/vsftpd.conf \
-    && echo "seccomp_sandbox=NO" >> /etc/vsftpd/vsftpd.conf \
-    && echo "syslog_enable=YES" >> /etc/vsftpd/vsftpd.conf \
-    && echo "xferlog_enable=YES" >> /etc/vsftpd/vsftpd.conf \
+    && curl --location "https://security.appspot.com/downloads/vsftpd-${VSFTPD_VERSION}.tar.gz" | tar --directory /tmp --extract --gzip \
+    && make --directory "/tmp/vsftpd-${VSFTPD_VERSION}" \
+    && cp "/tmp/vsftpd-${VSFTPD_VERSION}/vsftpd" /usr/sbin/vsftpd \
+    && mkdir /usr/share/vsftpd \
 
     # Clean
 
-    && apk del \
-           $BUILD_DEPS \
+    && apt-get remove --purge --yes \
+           ${BUILD_DEPS} \
+    && apt-get autoremove --purge --yes \
 
-    && rm -rf \
-           /tmp/* \
-           /var/cache/apk/*
+    && rm --force --recursive \
+           /tmp/*
 
 COPY ./rootfs /
 
-ENTRYPOINT [ "/init" , "/usr/sbin/vsftpd" , "/etc/vsftpd/vsftpd.conf" ]
+ENTRYPOINT [ "/init" ]

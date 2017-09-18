@@ -1,13 +1,26 @@
 #!/bin/sh
+set -e
+
+# Check environment
 
 fail() {
-    echo $1 >&2
-    echo "Usage: $0 [USER] [PASSWORD]" >&2
+    echo "$1" >&2
+    echo "Usage: $(basename "$0") [USER] [PASSWORD]" >&2
     exit 1
 }
 
-[ -z "$PWDFILE" ] && fail "Environment variable PWDFILE is missing."
-[ -z "$1" ] && fail "Argument USER is missing."
-[ -z "$2" ] && fail "Argument PASSWORD is missing."
+if [ -z "${PAM_PWDFILE}" ] ; then
+    fail "Environment variable \"PAM_PWDFILE\" is missing."
+fi
 
-htpasswd -db $PWDFILE $1 $2
+if [ -z "$1" ] ; then
+    fail "Argument \"USER\" is missing."
+fi
+
+if [ -z "$2" ] ; then
+    fail "Argument \"PASSWORD\" is missing."
+fi
+
+# Add user
+
+htpasswd -b -d "${PAM_PWDFILE}" "$1" "$2"

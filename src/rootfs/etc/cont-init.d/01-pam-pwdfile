@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+# Run only if "pwdfile" has been defined
+
+PAM_PWDFILE=${PAM_PWDFILE:-""}
+if [ -z "${PAM_PWDFILE}" ] ; then
+    exit 0
+fi
+
+# Create pwdfile if necessary
+
+touch "${PAM_PWDFILE}"
+
+# Update pam
+
+cat > /etc/pam.d/ftp << EOF
+auth required /lib/x86_64-linux-gnu/security/pam_pwdfile.so pwdfile ${PAM_PWDFILE}
+account required /lib/x86_64-linux-gnu/security/pam_permit.so
+EOF

@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+ARGUMENTS="/etc/vsftpd/vsftpd.conf"
+for OPTION in $(env | grep "VSFTPD_OPTION_*") ; do
+    KEY=$(echo "${OPTION:14}" | cut --delimiter = --fields 1 | tr "[:upper:]" "[:lower:]")
+    VALUE=$(echo "${OPTION}" | cut --delimiter = --fields 2)
+    ARGUMENTS="${ARGUMENTS} -o${KEY}=${VALUE}"
+done
+
+vsftpd ${ARGUMENTS}

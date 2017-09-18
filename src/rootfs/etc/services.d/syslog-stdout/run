@@ -1,3 +1,4 @@
-#!/usr/bin/with-contenv /bin/sh
+#!/bin/sh
+set -e
 
-/usr/sbin/syslog-stdout
+syslog-stdout

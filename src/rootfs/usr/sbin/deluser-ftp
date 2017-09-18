@@ -1,12 +1,22 @@
 #!/bin/sh
+set -e
+
+# Check environment
 
 fail() {
-    echo $1 >&2
-    echo "Usage: $0 [USER]" >&2
+    echo "$1" >&2
+    echo "Usage: $(basename "$0") [USER]" >&2
     exit 1
 }
 
-[ -z "$PWDFILE" ] && fail "Environment variable PWDFILE is missing."
-[ -z "$1" ] && fail "Argument USER is missing."
+if [ -z "${PAM_PWDFILE}" ] ; then
+    fail "Environment variable \"PAM_PWDFILE\" is missing."
+fi
 
-sed -i "/^$1:/ d" $PWDFILE
+if [ -z "$1" ] ; then
+    fail "Argument \"USER\" is missing."
+fi
+
+# Remove user
+
+sed --in-place "/^$1:/ d" "${PAM_PWDFILE}"
