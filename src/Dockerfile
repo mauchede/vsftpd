@@ -34,7 +34,7 @@ RUN set -ex \
 
     # Install vsftpd
 
-    && export $(curl "https://raw.githubusercontent.com/timonier/version-lister/release/generated/vsftpd/latest" | xargs) \
+    && export $(curl --location "https://github.com/timonier/version-lister/raw/release/generated/_/vsftpd/latest" | xargs) \
 
     && curl --location "https://security.appspot.com/downloads/vsftpd-${VSFTPD_VERSION}.tar.gz" | tar --directory /tmp --extract --gzip \
     && make --directory "/tmp/vsftpd-${VSFTPD_VERSION}" \
