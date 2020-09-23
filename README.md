@@ -2,6 +2,8 @@
 
 Very Secure FTP Daemon
 
+⚠️ This project is no longer maintained. ⚠️
+
 ## Usage
 
 Run the application via `docker run`. The [vsftpd options](https://security.appspot.com/vsftpd/vsftpd_conf.html) can be passed as environment variables:
@@ -9,9 +11,8 @@ Run the application via `docker run`. The [vsftpd options](https://security.apps
 ```sh
 docker run \
     --env VSFTPD_OPTION_ANONYMOUS_ENABLE=YES \
-    --env VSFTPD_OPTION_SECURE_CHROOT_DIR=/srv/ftp \
     --name vsftpd \
-    --publish 21:21 \
+    --net host \
     --volume /srv/ftp:/srv/ftp \
     timonier/vsftpd
 ```
@@ -50,16 +51,6 @@ docker run \
 docker exec -ti vsftpd adduser-ftp usernameA passwordA
 docker exec -ti vsftpd adduser-ftp usernameB passwordB
 ```
-
-## Contributing
-
-1. Fork it.
-2. Create your branch: `git checkout -b my-new-feature`.
-3. Commit your changes: `git commit -am 'Add some feature'`.
-4. Push to the branch: `git push origin my-new-feature`.
-5. Submit a pull request.
-
-__Note__: Use the script `bin/build` to test your modifications locally.
 
 ## Links
 
